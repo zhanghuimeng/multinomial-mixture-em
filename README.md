@@ -1,2 +1,946 @@
-# multinomial-mixture-em
-Using EM algorithm to solve mixture of multinomials.
+# 用EM算法求解多项混合主题模型
+
+用EM算法求解多项混合主题模型。
+
+数据：[http://ml.cs.tsinghua.edu.cn/~shuyu/sml/20news.zip](http://ml.cs.tsinghua.edu.cn/~shuyu/sml/20news.zip)
+
+用法：将`20news.zip`解压到`/20news`
+
+```bash
+$ python em.py -h
+usage: em.py [-h] [--data DATA] [--K K]
+
+optional arguments:
+  -h, --help   show this help message and exit
+  --data DATA  Data directory
+  --K K        Data directory
+```
+
+## 结果
+
+当`K=10`时，可以明显看出各个主题对应的词汇不同，如主题0下包括“file”、“windows”、“jpeg”等词，而主题3下包括“game”、“team”等词。`K`较大时难以进行分析，就先不分析了。
+
+### K=10
+
+```txt
+K=10, step=0, norm-diff=2.846482
+K=10, step=1, norm-diff=0.026981
+K=10, step=2, norm-diff=0.015472
+K=10, step=3, norm-diff=0.008527
+K=10, step=4, norm-diff=0.005229
+K=10, step=5, norm-diff=0.003242
+K=10, step=6, norm-diff=0.002273
+K=10, step=7, norm-diff=0.001878
+K=10, step=8, norm-diff=0.001220
+K=10, step=9, norm-diff=0.000956
+Topic 0:
+    file: 0.005897
+    windows: 0.004496
+    jpeg: 0.004284
+    image: 0.003926
+    files: 0.003367
+    software: 0.003330
+    program: 0.003060
+    thanks: 0.003003
+    available: 0.002858
+    version: 0.002648
+Topic 1:
+    believe: 0.002251
+    armenian: 0.002108
+    going: 0.002105
+    file: 0.002089
+    years: 0.002027
+    really: 0.001950
+    things: 0.001921
+    read: 0.001871
+    question: 0.001837
+    year: 0.001797
+Topic 2:
+    image: 0.003377
+    data: 0.003350
+    software: 0.002334
+    problem: 0.002185
+    using: 0.002169
+    available: 0.001894
+    years: 0.001865
+    government: 0.001858
+    space: 0.001783
+    turkish: 0.001729
+Topic 3:
+    game: 0.003565
+    team: 0.003158
+    space: 0.002612
+    games: 0.002384
+    going: 0.002070
+    period: 0.001940
+    things: 0.001914
+    list: 0.001912
+    year: 0.001835
+    better: 0.001833
+Topic 4:
+    drive: 0.002625
+    year: 0.002399
+    game: 0.002326
+    got: 0.002041
+    didnt: 0.002010
+    going: 0.001878
+    team: 0.001719
+    better: 0.001704
+    second: 0.001678
+    hard: 0.001673
+Topic 5:
+    problem: 0.002761
+    believe: 0.002710
+    point: 0.002008
+    windows: 0.001966
+    car: 0.001719
+    things: 0.001715
+    card: 0.001678
+    really: 0.001668
+    different: 0.001642
+    using: 0.001568
+Topic 6:
+    thanks: 0.002617
+    problem: 0.002218
+    government: 0.002183
+    going: 0.002132
+    information: 0.002023
+    drive: 0.002002
+    thats: 0.001800
+    believe: 0.001714
+    send: 0.001623
+    state: 0.001608
+Topic 7:
+    government: 0.002588
+    encryption: 0.002391
+    years: 0.002348
+    information: 0.002175
+    going: 0.001996
+    number: 0.001924
+    key: 0.001899
+    didnt: 0.001839
+    data: 0.001683
+    sure: 0.001666
+Topic 8:
+    key: 0.003749
+    drive: 0.003422
+    using: 0.003112
+    thanks: 0.003053
+    windows: 0.002867
+    problem: 0.002819
+    chip: 0.002651
+    program: 0.002619
+    available: 0.002512
+    number: 0.002424
+Topic 9:
+    file: 0.002896
+    law: 0.002658
+    government: 0.002607
+    state: 0.002244
+    gun: 0.002172
+    israel: 0.002135
+    information: 0.002122
+    point: 0.001928
+    going: 0.001918
+    case: 0.001774
+```
+
+### K=20
+
+```txt
+K=20, step=0, norm-diff=4.248699
+K=20, step=1, norm-diff=0.024836
+K=20, step=2, norm-diff=0.017019
+K=20, step=3, norm-diff=0.009386
+K=20, step=4, norm-diff=0.005942
+K=20, step=5, norm-diff=0.003826
+K=20, step=6, norm-diff=0.002972
+K=20, step=7, norm-diff=0.002421
+K=20, step=8, norm-diff=0.001951
+K=20, step=9, norm-diff=0.001228
+K=20, step=10, norm-diff=0.001139
+K=20, step=11, norm-diff=0.001019
+K=20, step=12, norm-diff=0.000793
+Topic 0:
+    health: 0.004720
+    space: 0.004536
+    mov: 0.003633
+    medical: 0.003261
+    hiv: 0.003155
+    launch: 0.003122
+    year: 0.002972
+    years: 0.002892
+    disease: 0.002592
+    number: 0.002533
+Topic 1:
+    going: 0.002280
+    really: 0.002227
+    things: 0.002068
+    space: 0.002059
+    believe: 0.001873
+    youre: 0.001782
+    love: 0.001767
+    better: 0.001703
+    didnt: 0.001668
+    wire: 0.001639
+Topic 2:
+    really: 0.003232
+    years: 0.002881
+    sure: 0.002202
+    game: 0.002127
+    got: 0.002062
+    going: 0.002046
+    bit: 0.001987
+    read: 0.001941
+    little: 0.001937
+    believe: 0.001927
+Topic 3:
+    really: 0.002430
+    dos: 0.002382
+    israel: 0.002333
+    appears: 0.002319
+    years: 0.002182
+    art: 0.002086
+    year: 0.001970
+    things: 0.001800
+    power: 0.001797
+    left: 0.001783
+Topic 4:
+    believe: 0.003054
+    armenian: 0.002553
+    problem: 0.002089
+    armenians: 0.002020
+    really: 0.001946
+    christian: 0.001906
+    jesus: 0.001815
+    government: 0.001813
+    point: 0.001807
+    fact: 0.001792
+Topic 5:
+    windows: 0.003140
+    data: 0.002470
+    image: 0.002114
+    using: 0.001947
+    better: 0.001755
+    things: 0.001715
+    years: 0.001657
+    run: 0.001641
+    doesnt: 0.001616
+    program: 0.001612
+Topic 6:
+    lord: 0.003154
+    jehovah: 0.002806
+    pts: 0.002644
+    team: 0.002492
+    christ: 0.002350
+    hockey: 0.002151
+    elohim: 0.002130
+    games: 0.002046
+    book: 0.001987
+    second: 0.001963
+Topic 7:
+    game: 0.003538
+    year: 0.002967
+    team: 0.002603
+    years: 0.002603
+    going: 0.002514
+    games: 0.002509
+    better: 0.002385
+    got: 0.002153
+    problem: 0.002122
+    won: 0.001948
+Topic 8:
+    problem: 0.002387
+    openwindows: 0.002117
+    university: 0.002060
+    history: 0.001929
+    children: 0.001778
+    point: 0.001752
+    drive: 0.001737
+    using: 0.001719
+    number: 0.001713
+    government: 0.001681
+Topic 9:
+    internet: 0.003091
+    information: 0.003086
+    anonymous: 0.002844
+    jesus: 0.002821
+    israel: 0.002408
+    didnt: 0.002211
+    privacy: 0.002122
+    really: 0.002109
+    come: 0.002067
+    email: 0.001895
+Topic 10:
+    information: 0.003797
+    president: 0.003335
+    question: 0.003006
+    myers: 0.002728
+    data: 0.002587
+    list: 0.002542
+    help: 0.002540
+    general: 0.002473
+    thanks: 0.002256
+    government: 0.002189
+Topic 11:
+    file: 0.007435
+    image: 0.005868
+    windows: 0.005154
+    software: 0.005093
+    available: 0.004633
+    jpeg: 0.004324
+    thanks: 0.004273
+    version: 0.004011
+    data: 0.003926
+    files: 0.003903
+Topic 12:
+    government: 0.002829
+    believe: 0.002785
+    problem: 0.002473
+    going: 0.002309
+    istanbul: 0.002298
+    question: 0.002152
+    program: 0.002025
+    thats: 0.001930
+    year: 0.001901
+    university: 0.001893
+Topic 13:
+    government: 0.002551
+    really: 0.002389
+    problem: 0.002087
+    law: 0.002032
+    jews: 0.002020
+    fact: 0.002014
+    believe: 0.001992
+    world: 0.001891
+    number: 0.001816
+    going: 0.001749
+Topic 14:
+    going: 0.002398
+    things: 0.002389
+    really: 0.002197
+    power: 0.002181
+    didnt: 0.002154
+    government: 0.002035
+    come: 0.002019
+    space: 0.001939
+    believe: 0.001925
+    problem: 0.001892
+Topic 15:
+    key: 0.006112
+    number: 0.003373
+    chip: 0.003207
+    using: 0.002746
+    information: 0.002538
+    data: 0.002478
+    des: 0.002427
+    encryption: 0.002415
+    cancer: 0.002379
+    available: 0.002226
+Topic 16:
+    stephanopoulos: 0.003776
+    believe: 0.003088
+    going: 0.003079
+    president: 0.002376
+    years: 0.002325
+    thats: 0.002183
+    point: 0.002083
+    power: 0.002024
+    really: 0.001979
+    government: 0.001928
+Topic 17:
+    file: 0.005646
+    program: 0.004650
+    drive: 0.004085
+    windows: 0.003337
+    problem: 0.003228
+    disk: 0.002694
+    using: 0.002620
+    number: 0.002278
+    going: 0.002253
+    set: 0.002114
+Topic 18:
+    entry: 0.003836
+    disk: 0.002772
+    armenian: 0.002515
+    entries: 0.002387
+    program: 0.002376
+    drive: 0.002340
+    hard: 0.002316
+    number: 0.002197
+    drives: 0.002174
+    azerbaijan: 0.002153
+Topic 19:
+    send: 0.002637
+    mail: 0.002262
+    free: 0.002134
+    help: 0.001873
+    problem: 0.001867
+    ftp: 0.001766
+    point: 0.001675
+    graphics: 0.001630
+    things: 0.001624
+    list: 0.001581
+```
+
+### K=50
+
+```txt
+K=50, step=0, norm-diff=6.929724
+K=50, step=1, norm-diff=0.030053
+K=50, step=2, norm-diff=0.010543
+K=50, step=3, norm-diff=0.004052
+K=50, step=4, norm-diff=0.002179
+K=50, step=5, norm-diff=0.001202
+K=50, step=6, norm-diff=0.000629
+Topic 0:
+    mov: 0.004579
+    believe: 0.003447
+    copies: 0.002841
+    going: 0.002475
+    fact: 0.002440
+    left: 0.002406
+    government: 0.002313
+    information: 0.002306
+    second: 0.002281
+    stephanopoulos: 0.002173
+Topic 1:
+    space: 0.006531
+    president: 0.003132
+    launch: 0.002815
+    number: 0.002723
+    things: 0.002583
+    believe: 0.002555
+    year: 0.002282
+    jesus: 0.002281
+    better: 0.002021
+    law: 0.002017
+Topic 2:
+    file: 0.009178
+    program: 0.004683
+    oname: 0.003985
+    output: 0.003895
+    key: 0.003235
+    char: 0.003200
+    send: 0.003086
+    number: 0.003060
+    read: 0.002991
+    line: 0.002932
+Topic 3:
+    entry: 0.003729
+    program: 0.003292
+    government: 0.003244
+    president: 0.003184
+    year: 0.002535
+    information: 0.002437
+    really: 0.002435
+    number: 0.002417
+    file: 0.002291
+    entries: 0.002290
+Topic 4:
+    bible: 0.003087
+    azerbaijan: 0.003028
+    believe: 0.002883
+    jesus: 0.002818
+    really: 0.002699
+    version: 0.002614
+    contact: 0.002531
+    program: 0.002492
+    type: 0.002406
+    problem: 0.002242
+Topic 5:
+    team: 0.002973
+    better: 0.002788
+    doesnt: 0.002672
+    year: 0.002645
+    really: 0.002556
+    chi: 0.002355
+    players: 0.002201
+    bos: 0.002189
+    probably: 0.002188
+    mtl: 0.002109
+Topic 6:
+    stephanopoulos: 0.016068
+    president: 0.009235
+    going: 0.007288
+    thats: 0.004432
+    myers: 0.003853
+    believe: 0.003502
+    general: 0.003188
+    hes: 0.003148
+    day: 0.002811
+    come: 0.002771
+Topic 7:
+    image: 0.002698
+    section: 0.002429
+    file: 0.002418
+    kinsey: 0.002340
+    game: 0.002312
+    sex: 0.002291
+    following: 0.002050
+    firearm: 0.001906
+    military: 0.001859
+    better: 0.001819
+Topic 8:
+    windows: 0.003913
+    problem: 0.003663
+    game: 0.003504
+    run: 0.003234
+    really: 0.003159
+    window: 0.002784
+    going: 0.002731
+    got: 0.002603
+    better: 0.002576
+    years: 0.002492
+Topic 9:
+    jpeg: 0.015214
+    image: 0.008748
+    file: 0.008560
+    gif: 0.006795
+    windows: 0.005967
+    format: 0.005603
+    version: 0.005330
+    files: 0.005013
+    software: 0.004891
+    images: 0.004812
+Topic 10:
+    thanks: 0.002830
+    com: 0.002633
+    government: 0.002449
+    cancer: 0.002208
+    years: 0.002205
+    using: 0.002199
+    dead: 0.002147
+    mac: 0.002114
+    power: 0.001989
+    modem: 0.001957
+Topic 11:
+    dod: 0.003113
+    jesus: 0.002967
+    key: 0.002717
+    list: 0.002502
+    day: 0.002442
+    really: 0.002110
+    law: 0.001851
+    read: 0.001782
+    game: 0.001674
+    sure: 0.001669
+Topic 12:
+    software: 0.003406
+    number: 0.002960
+    available: 0.002875
+    problem: 0.002584
+    image: 0.002360
+    phone: 0.002262
+    data: 0.002250
+    year: 0.002141
+    information: 0.002067
+    years: 0.002065
+Topic 13:
+    problem: 0.003529
+    better: 0.002620
+    years: 0.002612
+    things: 0.002496
+    orbit: 0.002436
+    space: 0.002353
+    power: 0.002231
+    believe: 0.002226
+    read: 0.002224
+    mission: 0.002088
+Topic 14:
+    hockey: 0.005635
+    games: 0.004404
+    league: 0.004114
+    nhl: 0.004064
+    team: 0.003843
+    game: 0.003252
+    season: 0.002818
+    teams: 0.002772
+    division: 0.002769
+    address: 0.002448
+Topic 15:
+    armenian: 0.004440
+    graphics: 0.003134
+    disk: 0.002826
+    period: 0.002825
+    data: 0.002799
+    send: 0.002690
+    armenians: 0.002564
+    hard: 0.002399
+    shots: 0.002351
+    file: 0.002316
+Topic 16:
+    year: 0.003409
+    got: 0.002644
+    government: 0.002564
+    turkey: 0.002277
+    point: 0.002240
+    years: 0.002233
+    armenian: 0.002223
+    muslims: 0.002223
+    order: 0.002152
+    believe: 0.001897
+Topic 17:
+    card: 0.004824
+    monitor: 0.004536
+    problem: 0.004311
+    car: 0.003881
+    really: 0.003500
+    list: 0.002971
+    going: 0.002922
+    video: 0.002805
+    drive: 0.002651
+    myers: 0.002599
+Topic 18:
+    didnt: 0.004801
+    went: 0.003872
+    armenians: 0.003427
+    going: 0.003150
+    came: 0.002751
+    says: 0.002721
+    started: 0.002535
+    armenian: 0.002455
+    years: 0.002438
+    things: 0.002407
+Topic 19:
+    university: 0.004081
+    history: 0.003278
+    professor: 0.003151
+    question: 0.002522
+    turkish: 0.002304
+    disease: 0.002101
+    point: 0.002063
+    years: 0.002035
+    things: 0.001940
+    christians: 0.001858
+Topic 20:
+    istanbul: 0.006643
+    armenian: 0.006294
+    ankara: 0.004044
+    armenians: 0.003646
+    turkey: 0.003546
+    vitamin: 0.003347
+    university: 0.003147
+    come: 0.002648
+    ermeni: 0.002597
+    osmanli: 0.002597
+Topic 21:
+    believe: 0.005119
+    jesus: 0.002909
+    atheists: 0.002860
+    question: 0.002562
+    doesnt: 0.002543
+    true: 0.002281
+    fact: 0.002224
+    year: 0.002212
+    exist: 0.002071
+    religious: 0.002004
+Topic 22:
+    space: 0.003466
+    launch: 0.003432
+    year: 0.002468
+    team: 0.002366
+    windows: 0.002340
+    years: 0.002307
+    using: 0.001896
+    johns: 0.001859
+    really: 0.001736
+    baltimore: 0.001731
+Topic 23:
+    power: 0.005098
+    period: 0.003718
+    war: 0.003302
+    south: 0.003008
+    play: 0.002841
+    years: 0.002675
+    secret: 0.002644
+    second: 0.002299
+    really: 0.002223
+    send: 0.002091
+Topic 24:
+    pts: 0.006679
+    really: 0.003192
+    shall: 0.002694
+    thanks: 0.002521
+    point: 0.002459
+    sleeve: 0.002361
+    greek: 0.002294
+    david: 0.002195
+    year: 0.002170
+    true: 0.002098
+Topic 25:
+    key: 0.003422
+    game: 0.002597
+    program: 0.002475
+    drug: 0.002475
+    information: 0.002392
+    number: 0.002266
+    year: 0.002179
+    security: 0.002171
+    phigs: 0.002131
+    public: 0.002096
+Topic 26:
+    flyers: 0.004934
+    problem: 0.003542
+    game: 0.003433
+    puck: 0.003232
+    best: 0.003194
+    got: 0.003128
+    play: 0.003102
+    better: 0.003076
+    power: 0.002665
+    lot: 0.002558
+Topic 27:
+    ground: 0.003830
+    drug: 0.003141
+    government: 0.002441
+    states: 0.002223
+    president: 0.002111
+    great: 0.002058
+    station: 0.002003
+    book: 0.001905
+    children: 0.001787
+    war: 0.001781
+Topic 28:
+    image: 0.005358
+    data: 0.004360
+    available: 0.004202
+    lord: 0.002463
+    program: 0.002452
+    sun: 0.002417
+    information: 0.002416
+    software: 0.002328
+    ftp: 0.002265
+    jesus: 0.002214
+Topic 29:
+    drive: 0.004690
+    problem: 0.004284
+    tape: 0.003557
+    problems: 0.003071
+    son: 0.002986
+    believe: 0.002213
+    using: 0.002209
+    disk: 0.002089
+    read: 0.002079
+    hard: 0.001981
+Topic 30:
+    encryption: 0.005921
+    chip: 0.005168
+    government: 0.004329
+    technology: 0.003579
+    card: 0.003380
+    data: 0.002912
+    information: 0.002844
+    clipper: 0.002696
+    thanks: 0.002623
+    access: 0.002585
+Topic 31:
+    game: 0.002972
+    question: 0.002328
+    wrong: 0.002318
+    team: 0.002218
+    law: 0.002126
+    year: 0.002078
+    look: 0.002056
+    different: 0.002035
+    paul: 0.001929
+    man: 0.001881
+Topic 32:
+    israel: 0.003890
+    list: 0.003570
+    key: 0.003090
+    allocation: 0.003049
+    program: 0.002815
+    using: 0.002705
+    unit: 0.002697
+    government: 0.002642
+    problem: 0.002535
+    cross: 0.002404
+Topic 33:
+    file: 0.009566
+    gun: 0.003568
+    information: 0.003248
+    law: 0.002750
+    control: 0.002370
+    believe: 0.002294
+    police: 0.002260
+    states: 0.002222
+    privacy: 0.002077
+    internet: 0.002056
+Topic 34:
+    myers: 0.004349
+    going: 0.003211
+    mhz: 0.003148
+    government: 0.002841
+    years: 0.002691
+    church: 0.002681
+    game: 0.002531
+    pope: 0.002248
+    far: 0.002219
+    case: 0.002176
+Topic 35:
+    thanks: 0.003037
+    university: 0.002821
+    van: 0.002460
+    problem: 0.002316
+    using: 0.002288
+    history: 0.002244
+    doug: 0.002243
+    going: 0.002175
+    information: 0.002171
+    jews: 0.002025
+Topic 36:
+    file: 0.005682
+    thanks: 0.005534
+    windows: 0.004917
+    server: 0.004013
+    help: 0.004010
+    using: 0.003937
+    available: 0.003167
+    version: 0.003031
+    software: 0.002914
+    running: 0.002867
+Topic 37:
+    lost: 0.007633
+    won: 0.006796
+    problem: 0.002972
+    jews: 0.002904
+    idle: 0.002904
+    thanks: 0.002504
+    national: 0.002410
+    computer: 0.002299
+    american: 0.002286
+    chicago: 0.002231
+Topic 38:
+    adl: 0.003917
+    ripem: 0.003333
+    key: 0.002749
+    believe: 0.002626
+    game: 0.002481
+    problem: 0.002341
+    drive: 0.002201
+    rsa: 0.002130
+    using: 0.002098
+    point: 0.002072
+Topic 39:
+    government: 0.004789
+    drive: 0.004435
+    israel: 0.004159
+    turkish: 0.003962
+    rights: 0.003083
+    law: 0.003041
+    master: 0.002979
+    muslim: 0.002935
+    armenians: 0.002739
+    slave: 0.002735
+Topic 40:
+    windows: 0.006131
+    thanks: 0.004934
+    openwindows: 0.004886
+    window: 0.004131
+    file: 0.004056
+    dos: 0.003824
+    run: 0.003596
+    program: 0.003543
+    version: 0.003325
+    using: 0.003253
+Topic 41:
+    believe: 0.003468
+    ndetloopc: 0.003261
+    evidence: 0.002849
+    windows: 0.002841
+    world: 0.002719
+    using: 0.002687
+    christians: 0.002485
+    dos: 0.002478
+    really: 0.002361
+    point: 0.002357
+Topic 42:
+    key: 0.004489
+    window: 0.004305
+    kuwait: 0.004252
+    using: 0.003122
+    program: 0.002469
+    second: 0.002284
+    bit: 0.002282
+    keys: 0.002281
+    image: 0.002246
+    chip: 0.002242
+Topic 43:
+    question: 0.002926
+    drive: 0.002638
+    key: 0.002356
+    point: 0.002239
+    pain: 0.002231
+    going: 0.002157
+    public: 0.002144
+    course: 0.002025
+    second: 0.002013
+    thats: 0.001964
+Topic 44:
+    life: 0.003187
+    christ: 0.003018
+    jesus: 0.002990
+    space: 0.002896
+    believe: 0.002157
+    point: 0.002059
+    word: 0.001986
+    bible: 0.001978
+    john: 0.001946
+    world: 0.001930
+Topic 45:
+    dos: 0.007499
+    windows: 0.004658
+    keyboard: 0.003773
+    information: 0.003679
+    thanks: 0.003400
+    list: 0.003215
+    cancer: 0.003156
+    available: 0.003070
+    number: 0.002710
+    using: 0.002681
+Topic 46:
+    appears: 0.005130
+    art: 0.004331
+    software: 0.003196
+    disk: 0.002992
+    mac: 0.002890
+    files: 0.002840
+    wolverine: 0.002493
+    problem: 0.002424
+    argument: 0.002389
+    hiv: 0.002213
+Topic 47:
+    pts: 0.003051
+    power: 0.002636
+    card: 0.002601
+    list: 0.002314
+    information: 0.002287
+    long: 0.002276
+    point: 0.002229
+    sure: 0.002228
+    drive: 0.002225
+    problem: 0.002220
+Topic 48:
+    jews: 0.003468
+    church: 0.003269
+    turkish: 0.003144
+    widget: 0.002961
+    believe: 0.002960
+    water: 0.002819
+    data: 0.002690
+    program: 0.002635
+    going: 0.002527
+    file: 0.002496
+Topic 49:
+    drive: 0.008336
+    scsi: 0.005918
+    ide: 0.004684
+    problem: 0.003460
+    believe: 0.003272
+    hard: 0.003149
+    controller: 0.003052
+    drives: 0.003050
+    thanks: 0.002878
+    windows: 0.002838
+```
